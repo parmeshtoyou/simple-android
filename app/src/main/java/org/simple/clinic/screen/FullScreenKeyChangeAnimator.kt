@@ -7,11 +7,14 @@ import flow.Direction.FORWARD
 import flow.Direction.REPLACE
 import org.simple.clinic.router.screen.FullScreenKey
 import org.simple.clinic.router.screen.KeyChangeAnimator
+import org.simple.clinic.widgets.setDuration
+import org.threeten.bp.Duration
 import javax.inject.Inject
+import javax.inject.Named
 
-class FullScreenKeyChangeAnimator @Inject constructor() : KeyChangeAnimator<FullScreenKey> {
-
-  private val screenChangeAnimationDuration = 200L
+class FullScreenKeyChangeAnimator @Inject constructor(
+    @Named("screen_change_animation_duration") private val screenChangeAnimationDuration: Duration
+) : KeyChangeAnimator<FullScreenKey> {
 
   override fun animate(
       outgoingKey: FullScreenKey?,

@@ -24,8 +24,10 @@ import org.simple.clinic.util.RealUserClock
 import org.simple.clinic.util.UserClock
 import org.simple.clinic.util.UtcClock
 import org.simple.clinic.util.identifierdisplay.IdentifierDisplayAdapterModule
+import org.threeten.bp.Duration
 import org.threeten.bp.ZoneId
 import java.util.Locale
+import javax.inject.Named
 
 @Module(includes = [
   SyncModule::class,
@@ -80,4 +82,8 @@ open class AppModule(private val appContext: Application) {
   @Provides
   @AppScope
   fun resources(): Resources = appContext.resources
+
+  @Provides
+  @Named("screen_change_animation_duration")
+  fun screenChangeAnimationDuration(): Duration = Duration.ofMillis(200L)
 }
