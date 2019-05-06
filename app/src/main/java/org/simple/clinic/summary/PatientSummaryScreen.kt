@@ -62,8 +62,10 @@ import org.simple.clinic.widgets.ScreenDestroyed
 import org.simple.clinic.widgets.UiEvent
 import org.simple.clinic.widgets.hideKeyboard
 import org.simple.clinic.widgets.visibleOrGone
+import org.threeten.bp.Duration
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Named
 
 class PatientSummaryScreen(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
 
@@ -86,6 +88,9 @@ class PatientSummaryScreen(context: Context, attrs: AttributeSet) : RelativeLayo
 
   @Inject
   lateinit var identifierDisplayAdapter: IdentifierDisplayAdapter
+
+  @field:[Inject Named("screen_change_animation_duration")]
+  lateinit var screenChangeAnimationDuration: Duration
 
   private val rootLayout by bindView<ViewGroup>(R.id.patientsummary_root)
   private val backButton by bindView<ImageButton>(R.id.patientsummary_back)
@@ -149,7 +154,8 @@ class PatientSummaryScreen(context: Context, attrs: AttributeSet) : RelativeLayo
             identifierLinkCancelledEvents()
         ),
         controller = controller,
-        screenDestroys = RxView.detaches(this).map { ScreenDestroyed() }
+        screenDestroys = RxView.detaches(this).map { ScreenDestroyed() },
+        uiChangeDelay = screenChangeAnimationDuration
     )
   }
 
