@@ -28,9 +28,11 @@ import org.simple.clinic.util.unsafeLazy
 import org.simple.clinic.widgets.ScreenDestroyed
 import org.simple.clinic.widgets.UiEvent
 import org.simple.clinic.widgets.hideKeyboard
+import org.threeten.bp.Duration
 import org.threeten.bp.Instant
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Named
 
 class AddIdToPatientSearchResultsScreen(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -45,6 +47,9 @@ class AddIdToPatientSearchResultsScreen(context: Context, attrs: AttributeSet) :
 
   @Inject
   lateinit var identifierDisplayAdapter: IdentifierDisplayAdapter
+
+  @field:[Inject Named("screen_change_animation_duration")]
+  lateinit var screenChangeAnimationDuration: Duration
 
   private val toolbar by bindView<Toolbar>(R.id.addidtopatientsearchresults_toolbar)
   private val titleTextView by bindView<TextView>(R.id.addidtopatientsearchresults_title)
@@ -67,7 +72,8 @@ class AddIdToPatientSearchResultsScreen(context: Context, attrs: AttributeSet) :
             registerNewPatientClicks()
         ),
         controller = controller,
-        screenDestroys = RxView.detaches(this).map { ScreenDestroyed() }
+        screenDestroys = RxView.detaches(this).map { ScreenDestroyed() },
+        uiChangeDelay = screenChangeAnimationDuration
     )
   }
 
