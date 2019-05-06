@@ -24,7 +24,9 @@ import org.simple.clinic.util.unsafeLazy
 import org.simple.clinic.widgets.PrimarySolidButtonWithFrame
 import org.simple.clinic.widgets.ScreenDestroyed
 import org.simple.clinic.widgets.showKeyboard
+import org.threeten.bp.Duration
 import javax.inject.Inject
+import javax.inject.Named
 
 class AddIdToPatientSearchScreen(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
 
@@ -39,6 +41,9 @@ class AddIdToPatientSearchScreen(context: Context, attrs: AttributeSet) : Relati
 
   @Inject
   lateinit var identifierDisplayAdapter: IdentifierDisplayAdapter
+
+  @field:[Inject Named("screen_change_animation_duration")]
+  lateinit var screenChangeAnimationDuration: Duration
 
   private val toolBar by bindView<Toolbar>(R.id.addidtopatientsearch_toolbar)
   private val titleTextView by bindView<TextView>(R.id.addidtopatientsearch_title)
@@ -66,7 +71,8 @@ class AddIdToPatientSearchScreen(context: Context, attrs: AttributeSet) : Relati
         ui = this,
         events = Observable.merge(nameChanges(), searchClicks()),
         controller = controller,
-        screenDestroys = RxView.detaches(this).map { ScreenDestroyed() }
+        screenDestroys = RxView.detaches(this).map { ScreenDestroyed() },
+        uiChangeDelay = screenChangeAnimationDuration
     )
   }
 
