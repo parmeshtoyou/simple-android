@@ -1,5 +1,6 @@
 package org.simple.clinic.home.overdue
 
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.subjects.PublishSubject
+import kotlinx.android.parcel.Parcelize
 import kotterknife.bindView
 import org.simple.clinic.R
 import org.simple.clinic.patient.Gender
@@ -64,6 +66,7 @@ sealed class OverdueListItem {
 
   object Header : OverdueListItem()
 
+  @Parcelize
   data class Patient(
       val appointmentUuid: UUID,
       val patientUuid: UUID,
@@ -76,7 +79,7 @@ sealed class OverdueListItem {
       val bpDaysAgo: Int,
       val overdueDays: Int,
       val isAtHighRisk: Boolean
-  ) : OverdueListItem()
+  ) : OverdueListItem(), Parcelable
 }
 
 sealed class OverdueListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -122,7 +125,7 @@ sealed class OverdueListViewHolder(itemView: View) : RecyclerView.ViewHolder(ite
         }
       }
       callButton.setOnClickListener {
-        eventStream.onNext(CallPatientClicked(appointment.phoneNumber!!))
+        eventStream.onNext(CallPatientClicked(appointment))
       }
       agreedToVisitTextView.setOnClickListener {
         eventStream.onNext(AgreedToVisitClicked(appointment.appointmentUuid))

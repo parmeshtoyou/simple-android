@@ -38,10 +38,16 @@ class OverdueScreenController @Inject constructor(
         .compose(ReportAnalyticsEvents())
         .replay()
 
+    val callEventHandler = if (phoneNumberMaskerConfig.blockingGet().showPhoneMaskBottomSheet) {
+      ::openPhoneMaskBottomSheet
+    } else {
+      ::patientCalls
+    }
+
     return Observable.mergeArray(
         screenSetup(replayedEvents),
         phoneCallPermissionRequests(replayedEvents),
-        patientCalls(replayedEvents),
+        callEventHandler(replayedEvents),
         markedAsAgreedToVisit(replayedEvents),
         rescheduleAppointment(replayedEvents),
         removeAppointment(replayedEvents),
@@ -138,7 +144,8 @@ class OverdueScreenController @Inject constructor(
 
     val callClicks = events
         .ofType<CallPatientClicked>()
-        .map { it.phoneNumber }
+        .map { it.patient }
+        .map { it.phoneNumber!! }
 
     val withoutDialerCalls = callPhonePermissionChanges
         .zipWith(callClicks)
@@ -160,6 +167,11 @@ class OverdueScreenController @Inject constructor(
 
     return withDialerCalls.mergeWith(withoutDialerCalls)
   }
+
+  private fun openPhoneMaskBottomSheet(events: Observable<UiEvent>): Observable<UiChange> =
+      events
+          .ofType<CallPatientClicked>()
+          .map { { ui: Ui -> ui.openPhoneMaskBottomSheet(it.patient) } }
 
   private fun markedAsAgreedToVisit(events: Observable<UiEvent>): Observable<UiChange> {
     return events.ofType<AgreedToVisitClicked>()
