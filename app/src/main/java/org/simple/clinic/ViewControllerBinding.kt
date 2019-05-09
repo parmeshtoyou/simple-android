@@ -16,7 +16,7 @@ fun <T> bindUiToController(
     events: Observable<UiEvent>,
     controller: ObservableTransformer<UiEvent, (T) -> Unit>,
     screenDestroys: Observable<ScreenDestroyed>,
-    uiChangeDelay: Duration = Duration.ZERO
+    uiChangeDelay: Duration = SCREEN_CHANGE_ANIMATION_DURATION
 ) {
   events
       .mergeWith(screenDestroys)

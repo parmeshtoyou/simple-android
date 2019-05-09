@@ -36,14 +36,12 @@ import org.simple.clinic.widgets.TheActivityLifecycle
 import org.simple.clinic.widgets.UiEvent
 import org.simple.clinic.widgets.indexOfChildId
 import org.simple.clinic.widgets.visibleOrGone
-import org.threeten.bp.Duration
 import org.threeten.bp.LocalDate
 import org.threeten.bp.Month
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import javax.inject.Named
 
 private const val REQUESTCODE_CAMERA_PERMISSION = 0
 private const val CAMERA_PERMISSION = Manifest.permission.CAMERA
@@ -67,9 +65,6 @@ open class PatientsScreen(context: Context, attrs: AttributeSet) : RelativeLayou
 
   @Inject
   lateinit var userClock: UserClock
-
-  @field:[Inject Named("screen_change_animation_duration")]
-  lateinit var screenChangeAnimationDuration: Duration
 
   private val searchButton by bindView<Button>(R.id.patients_search_patients)
   private val approvalStatusViewFlipper by bindView<ViewFlipper>(R.id.patients_user_status_viewflipper)
@@ -106,8 +101,7 @@ open class PatientsScreen(context: Context, attrs: AttributeSet) : RelativeLayou
             scanCardIdButtonClicks(),
             cameraPermissionChanges()),
         controller = controller,
-        screenDestroys = RxView.detaches(this).map { ScreenDestroyed() },
-        uiChangeDelay = screenChangeAnimationDuration
+        screenDestroys = RxView.detaches(this).map { ScreenDestroyed() }
     )
 
     illustrationImageView.setImageResource(illustrationResourceId())

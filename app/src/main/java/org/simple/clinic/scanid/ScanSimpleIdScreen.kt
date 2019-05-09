@@ -21,11 +21,9 @@ import org.simple.clinic.widgets.ScreenDestroyed
 import org.simple.clinic.widgets.UiEvent
 import org.simple.clinic.widgets.hideKeyboard
 import org.simple.clinic.widgets.qrcodescanner.QrCodeScannerView
-import org.threeten.bp.Duration
 import org.threeten.bp.Instant
 import java.util.UUID
 import javax.inject.Inject
-import javax.inject.Named
 
 class ScanSimpleIdScreen(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
 
@@ -37,9 +35,6 @@ class ScanSimpleIdScreen(context: Context, attrs: AttributeSet) : ConstraintLayo
 
   @Inject
   lateinit var utcClock: UtcClock
-
-  @field:[Inject Named("screen_change_animation_duration")]
-  lateinit var screenChangeAnimationDuration: Duration
 
   private val qrCodeScannerView by bindView<QrCodeScannerView>(R.id.scansimpleid_code_scanner_view)
   private val toolBar by bindView<Toolbar>(R.id.scansimpleid_toolbar)
@@ -59,8 +54,7 @@ class ScanSimpleIdScreen(context: Context, attrs: AttributeSet) : ConstraintLayo
         ui = this,
         events = qrScans(),
         controller = controller,
-        screenDestroys = RxView.detaches(this).map { ScreenDestroyed() },
-        uiChangeDelay = screenChangeAnimationDuration
+        screenDestroys = RxView.detaches(this).map { ScreenDestroyed() }
     )
   }
 

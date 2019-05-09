@@ -7,6 +7,7 @@ import android.os.Vibrator
 import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
+import org.simple.clinic.SCREEN_CHANGE_ANIMATION_DURATION
 import org.simple.clinic.crash.CrashReporterModule
 import org.simple.clinic.facility.change.FacilityChangeModule
 import org.simple.clinic.login.LoginModule
@@ -85,5 +86,5 @@ open class AppModule(private val appContext: Application) {
 
   @Provides
   @Named("screen_change_animation_duration")
-  fun screenChangeAnimationDuration(): Duration = Duration.ofMillis(200L)
+  fun screenChangeAnimationDuration(): Duration = SCREEN_CHANGE_ANIMATION_DURATION
 }

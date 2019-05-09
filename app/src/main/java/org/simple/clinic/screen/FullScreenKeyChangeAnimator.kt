@@ -5,6 +5,7 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import flow.Direction
 import flow.Direction.FORWARD
 import flow.Direction.REPLACE
+import org.simple.clinic.SCREEN_CHANGE_ANIMATION_DURATION
 import org.simple.clinic.router.screen.FullScreenKey
 import org.simple.clinic.router.screen.KeyChangeAnimator
 import org.simple.clinic.widgets.setDuration
@@ -12,9 +13,7 @@ import org.threeten.bp.Duration
 import javax.inject.Inject
 import javax.inject.Named
 
-class FullScreenKeyChangeAnimator @Inject constructor(
-    @Named("screen_change_animation_duration") private val screenChangeAnimationDuration: Duration
-) : KeyChangeAnimator<FullScreenKey> {
+class FullScreenKeyChangeAnimator @Inject constructor() : KeyChangeAnimator<FullScreenKey> {
 
   override fun animate(
       outgoingKey: FullScreenKey?,
@@ -30,7 +29,7 @@ class FullScreenKeyChangeAnimator @Inject constructor(
     }
 
     val scaleChange = 0.05f
-    val duration = screenChangeAnimationDuration
+    val duration = SCREEN_CHANGE_ANIMATION_DURATION
     val interpolator = FastOutSlowInInterpolator()
 
     if (direction == FORWARD || direction == REPLACE) {
