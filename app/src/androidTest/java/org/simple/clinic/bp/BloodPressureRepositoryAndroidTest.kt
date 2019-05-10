@@ -108,23 +108,23 @@ class BloodPressureRepositoryAndroidTest {
     val patientUuid = UUID.randomUUID()
     val bloodPressure1 = testData.bloodPressureMeasurement(
         patientUuid = patientUuid,
-        createdAt = Instant.now(clock))
+        recordedAt = Instant.now(clock))
 
     val bloodPressure2 = testData.bloodPressureMeasurement(
         patientUuid = patientUuid,
-        createdAt = Instant.now(clock).plus(1, DAYS))
+        recordedAt = Instant.now(clock).plus(1, DAYS))
 
     val bloodPressure3 = testData.bloodPressureMeasurement(
         patientUuid = patientUuid,
-        createdAt = Instant.now(clock).minus(1, DAYS))
+        recordedAt = Instant.now(clock).minus(1, DAYS))
 
     val bloodPressure4 = testData.bloodPressureMeasurement(
         patientUuid = patientUuid,
-        createdAt = Instant.now(clock).plusMillis(1000))
+        recordedAt = Instant.now(clock).plusMillis(1000))
 
     val bloodPressure5 = testData.bloodPressureMeasurement(
         patientUuid = patientUuid,
-        createdAt = Instant.now(clock).minus(10, DAYS))
+        recordedAt = Instant.now(clock).minus(10, DAYS))
 
     appDatabase.bloodPressureDao().save(listOf(bloodPressure1, bloodPressure2, bloodPressure3, bloodPressure4, bloodPressure5))
 
@@ -138,25 +138,25 @@ class BloodPressureRepositoryAndroidTest {
     val patientUuid = UUID.randomUUID()
     val bloodPressure1 = testData.bloodPressureMeasurement(
         patientUuid = patientUuid,
-        createdAt = Instant.now(clock))
+        recordedAt = Instant.now(clock))
 
     val bloodPressure2 = testData.bloodPressureMeasurement(
         patientUuid = patientUuid,
-        createdAt = Instant.now(clock).plus(1, DAYS),
+        recordedAt = Instant.now(clock).plus(1, DAYS),
         deletedAt = Instant.now(clock).plus(3, DAYS))
 
     val bloodPressure3 = testData.bloodPressureMeasurement(
         patientUuid = patientUuid,
-        createdAt = Instant.now(clock).minus(1, DAYS))
+        recordedAt = Instant.now(clock).minus(1, DAYS))
 
     val bloodPressure4 = testData.bloodPressureMeasurement(
         patientUuid = patientUuid,
-        createdAt = Instant.now(clock).plusMillis(1000),
+        recordedAt = Instant.now(clock).plusMillis(1000),
         deletedAt = Instant.now(clock))
 
     val bloodPressure5 = testData.bloodPressureMeasurement(
         patientUuid = patientUuid,
-        createdAt = Instant.now(clock).minus(10, DAYS))
+        recordedAt = Instant.now(clock).minus(10, DAYS))
 
     appDatabase.bloodPressureDao().save(listOf(bloodPressure1, bloodPressure2, bloodPressure3, bloodPressure4, bloodPressure5))
 
